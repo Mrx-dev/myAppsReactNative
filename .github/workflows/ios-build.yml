@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: '18'
 
-      # Step 3: Install Node.js dependencies (React Native dependencies)
-      - name: Install dependencies
+      # Step 3: Install Node.js dependencies
+      - name: Install Node.js dependencies
         run: npm install
 
       # Step 4: Install CocoaPods for iOS dependencies
@@ -34,11 +34,11 @@ jobs:
           sudo gem install cocoapods
           cd ios && pod install --repo-update
 
-      # Step 5: List available schemes (for debugging, optional)
+      # Step 5: List available Xcode schemes (for debugging purposes)
       - name: List Xcode schemes
         run: xcodebuild -workspace ios/HelloWorld.xcworkspace -list
 
-      # Step 6: Build the app for iOS
+      # Step 6: Build the iOS app
       - name: Build the app
         run: xcodebuild -workspace ios/HelloWorld.xcworkspace \
                         -scheme HelloWorld \
@@ -46,14 +46,14 @@ jobs:
                         -configuration Release \
                         archive -archivePath $PWD/build/MyApp.xcarchive
 
-      # Step 7: Export the IPA
+      # Step 7: Export the IPA file
       - name: Export IPA
         run: xcodebuild -exportArchive \
                         -archivePath $PWD/build/MyApp.xcarchive \
                         -exportOptionsPlist ios/exportOptions.plist \
                         -exportPath $PWD/build
 
-      # Step 8: Upload the IPA file as an artifact (to download it)
+      # Step 8: Upload the IPA as an artifact for download
       - name: Upload IPA as an artifact
         uses: actions/upload-artifact@v2
         with:
