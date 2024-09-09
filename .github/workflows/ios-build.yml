@@ -34,17 +34,19 @@ jobs:
           sudo gem install cocoapods
           cd ios && pod install --repo-update
 
-      # Step 5: List available Xcode schemes (for debugging purposes)
+      # Step 5: List available Xcode schemes (to verify the correct scheme)
       - name: List Xcode schemes
         run: xcodebuild -workspace ios/HelloWorld.xcworkspace -list
 
-      # Step 6: Build the iOS app
+      # Step 6: Build the app for iOS (Assuming HelloWorld is the correct scheme)
       - name: Build the app
-        run: xcodebuild -workspace ios/HelloWorld.xcworkspace \
-                        -scheme HelloWorld \
-                        -sdk iphoneos \
-                        -configuration Release \
-                        archive -archivePath $PWD/build/MyApp.xcarchive
+        run: |
+          xcodebuild -workspace ios/HelloWorld.xcworkspace \
+                     -scheme HelloWorld \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     clean archive \
+                     -archivePath $PWD/build/MyApp.xcarchive
 
       # Step 7: Export the IPA file
       - name: Export IPA
